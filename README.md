@@ -57,23 +57,13 @@ shown in the browser on requests from 127.0.0.1.
 You can also log your own messages directly into the log file from your code
 using the Ruby logger class from inside your controllers. Example:
 
-
-class Crawler
-  star = {}
- counter = 0
-
-base_url = "http://en.wikipedia.org/wiki/"
-
-twitter_base = "https://twitter.com/"
-
-...
-def crawl
-
-   ... some logic for actually using mechanize and crawling shit
-
-end
-end
-
+  class WeblogController < ActionController::Base
+    def destroy
+      @weblog = Weblog.find(params[:id])
+      @weblog.destroy
+      logger.info("#{Time.now} Destroyed Weblog ID ##{@weblog.id}!")
+    end
+  end
 
 The result will be a message in your log file along the lines of:
 
