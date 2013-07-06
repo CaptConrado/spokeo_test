@@ -26,10 +26,10 @@ class StarController < ApplicationController
 			
 
 
+				san_name = ActiveRecord::Base::sanitize($2)
 
 
-
-				star[:name] = $2
+				star[:name] = san_name.force_encoding("UTF-8")
 				# star[:url] = "#{base_url}#{$1}"	
 				url = "#{base_url}#{$1}"	
 				
@@ -56,6 +56,7 @@ class StarController < ApplicationController
 			end
 				
 		end
-
+		Star.last.destroy
+		Star.last.destroy
   end
 end
