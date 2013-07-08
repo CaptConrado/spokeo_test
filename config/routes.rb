@@ -1,5 +1,10 @@
 Spokeo::Application.routes.draw do
+  get "static_page/display"
+
   get "star/crawl"
+
+
+   match '/' => 'star#display'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
