@@ -24,40 +24,40 @@ class StarController < ApplicationController
 		page.body.split("\n").each do |k|
 		line = k.chomp
 
-		if line.match(/<li><a href="\/wiki\/(.*?)" title=".*?">(.*?)<\/a>/)
+			if line.match(/<li><a href="\/wiki\/(.*?)" title=".*?">(.*?)<\/a>/)
 
-			# san_name = ActiveRecord::Base::sanitize($2)
-			san_name = $2
-			san_name.force_encoding("UTF-8")
+				# san_name = ActiveRecord::Base::sanitize($2)
+				san_name = $2
+				san_name.force_encoding("UTF-8")
 
-			star[:name] = san_name
-			url = "#{base_url}#{$1}"	
+				star[:name] = san_name
+				url = "#{base_url}#{$1}"	
 
 
-			star_page = doc.get(url)
-			
-			star_page.body.split("\n").each do |d|
-				sline = d.chomp
+				star_page = doc.get(url)
+				
+				star_page.body.split("\n").each do |d|
+					sline = d.chomp
 
-				if tw = sline.match(/<li><a rel="nofollow" class="external text" href="https:\/\/twitter.com\/(.+?)">/)
-					star[:twitter] = "#{twitter_base}#{tw[1]}"
-					# puts "TWITTER"
-				end		
+					if tw = sline.match(/<li><a rel="nofollow" class="external text" href="https:\/\/twitter.com\/(.+?)">/)
+						star[:twitter] = "#{twitter_base}#{tw[1]}"
+						# puts "TWITTER"
+					end		
 
-			end
-				@star = Star.new(name: "#{star[:name]}", twitter: "#{star[:twitter]}")
-				puts star
-				@star.save
-				counter += 1
-				star = {}
 				end
+					@star = Star.new(name: "#{star[:name]}", twitter: "#{star[:twitter]}")
+					puts star
+					@star.save
+					counter += 1
+					star = {}
+			end
 
 		end
-	# cheated
-	Star.last.destroy
-	Star.last.destroy
+		# cheated to clean last list items
+		Star.last.destroy
+		Star.last.destroy
 
-	redirect_to '/'
+		redirect_to '/'
 	end
 
 end
